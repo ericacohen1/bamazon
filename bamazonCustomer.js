@@ -1,6 +1,8 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
+// var amoutUserOwes;
+
 // create the connection information for the sql database
 var connection = mysql.createConnection({
     host: "localhost",
@@ -10,7 +12,7 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "Buzzer123#",
+    password: "",
     database: "bamazonDB"
 });
 
@@ -33,24 +35,41 @@ function displayItems() {
 function whatItemDoesUserWant() {
     inquirer
         .prompt([{
-            //promp user to select what item they want
+                //promp user to select what item they want
                 type: "input",
-                name: "item_id",
+                name: "ID",
                 message: "Please enter the ID of the item you would you like to purchase?"
             },
             {
-            //prompt user tp enter the quantity of the item they want
+                //prompt user tp enter the quantity of the item they want
                 type: "input",
-                name: "item_quantity",
+                name: "Quantity",
                 message: "How many would you like to purchase?"
             }
         ])
+
         .then(function(input) {
-           connection.query("SELECT * FROM products WHERE id = ?", [input.item_id], function(err, res) {
-                if(input.item_quantity > res[0].stock_quantity) {
-                    console.log("Sorry, there is not enough of this item in stock.");
-                    console.log("Please refer the quantity left to see how many of this item left.");
-                }
-           }) 
+            var itemIDRequestedByUser = input.item_id;
+            var userRequestedQuantity = input.item_quantity;
+            makePurchaseIfEnoughInStock();
         })
+        // .then(function (input) {
+        //     connection.query("SELECT * FROM products WHERE id = ?", [input.item_id], function (err, res) {
+        //         if (input.item_quantity > res[0].stock_quantity) {
+        //             console.log("Insufficent Quantity!");
+        //             displayItems();
+        //         } else {
+        //             amoutUserOwes = res[0].price * answer.itemQuantity;
+        //             console.log("Your purchase is complete");
+        //         }
+        //     })
+        // })
+}
+
+function makePurchaseIfEnoughInStock(ID, Quantity) {
+    connection.query('SELECT * FROM products WHERE item_id = ' + ID, function(err, res){
+        if (Quantity <= res[0].stock_quantity) {
+            console.log("working");
+        }
+    })
 }
