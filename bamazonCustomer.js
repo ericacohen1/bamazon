@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "",
+    password: "Buzzer123#",
     database: "bamazonDB"
 });
 
@@ -69,7 +69,14 @@ function whatItemDoesUserWant() {
 function makePurchaseIfEnoughInStock(ID, Quantity) {
     connection.query('SELECT * FROM products WHERE item_id = ' + ID, function(err, res){
         if (Quantity <= res[0].stock_quantity) {
-            console.log("working");
+            console.log("Item has been purchased!");
+            totalCost = res[0].price * Quantity;
+            console.log("Order total cost: $" + totalCost);
+            displayItems();
+            connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + 'WHERE item_id = ' + ID);
+        } else {
+            console.log("We dont have enough of this item.")
+            displayItems();
         }
     })
 }
