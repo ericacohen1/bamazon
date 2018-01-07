@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "Buzzer123#",
+    password: "",
     database: "bamazonDB"
 });
 
@@ -115,3 +115,9 @@ function wantToRestart() {
             }
         });
 }
+
+
+
+//when I run the wantToRestart function and get to the .then I am unable to enter a 1 or 2 depending on if the user wants to continue shopping ir end the order
+
+//database is not updating properly
