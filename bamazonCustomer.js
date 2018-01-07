@@ -49,9 +49,9 @@ function whatItemDoesUserWant() {
         ])
 
         .then(function(input) {
-            var itemIDRequestedByUser = input.item_id;
-            var userRequestedQuantity = input.item_quantity;
-            makePurchaseIfEnoughInStock();
+            var itemIDRequestedByUser = input.ID;
+            var userRequestedQuantity = input.Quantity;
+            makePurchaseIfEnoughInStock(itemIDRequestedByUser, userRequestedQuantity);
         })
         // .then(function (input) {
         //     connection.query("SELECT * FROM products WHERE id = ?", [input.item_id], function (err, res) {
@@ -72,10 +72,23 @@ function makePurchaseIfEnoughInStock(ID, Quantity) {
             console.log("Item has been purchased!");
             totalCost = res[0].price * Quantity;
             console.log("Order total cost: $" + totalCost);
+            console.log("-----------------------------------");
             displayItems();
-            connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + 'WHERE item_id = ' + ID);
+            // connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + 'WHERE item_id = ' + ID);
+            connection.query(
+                "UPDATE products SET ? WHERE ?",
+                [
+                    {
+                        stock_quantity: Quantity
+                    },
+                    {
+                        item_id: ID
+                    }
+                ]
+            )
         } else {
-            console.log("We dont have enough of this item.")
+            console.log("We dont have enough of this item.");
+            console.log("-----------------------------------");
             displayItems();
         }
     })
