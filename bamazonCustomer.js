@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var colors = require('colors');
 
 // var amoutUserOwes;
 
@@ -12,7 +13,7 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "",
+    password: "Buzzer123#",
     database: "bamazonDB"
 });
 
@@ -25,10 +26,16 @@ connection.connect(function (err) {
 //function displays all of the items that are in stock to the user
 function displayItems() {
     connection.query("SELECT * FROM products", function (err, res) {
+        
         for (var i = 0; i < res.length; i++) {
-            console.log("ID: " + res[i].item_id + " |Item Name: " + res[i].product_name + " | Department: " + res[i].department_name + " | Current Price: $" + res[i].price + " | Quantity left: " + res[i].stock_quantity);
+            console.log(
+                "ID: " + res[i].item_id + 
+                " |Item Name: " + res[i].product_name + 
+                " | Department: " + res[i].department_name + 
+                " | Current Price: $" + res[i].price + 
+                " | Quantity left: " + res[i].stock_quantity);
         }
-        console.log("-----------------------------------");
+        console.log("-----------------------------------".magenta);
         whatItemDoesUserWant();
     });
 }
@@ -40,13 +47,13 @@ function whatItemDoesUserWant() {
                 //promp user to select what item they want
                 type: "input",
                 name: "ID",
-                message: "Please enter the ID of the item you would you like to purchase?"
+                message: colors.green("Please enter the ID of the item you would you like to purchase?")
             },
             {
                 //prompt user tp enter the quantity of the item they want
                 type: "input",
                 name: "Quantity",
-                message: "How many would you like to purchase?"
+                message: colors.green("How many would you like to purchase?")
             }
         ])
 
@@ -71,14 +78,14 @@ function makePurchaseIfEnoughInStock(ID, Quantity) {
             totalCost = res[0].price * Quantity;
             //telling the user their bill
             console.log("Order total cost: $" + totalCost);
-            console.log("-----------------------------------");
+            console.log("-----------------------------------".magenta);
             connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + ' WHERE item_id = ' + ID);
             //calling this function from below which will give user option to continue shopping or complete their order
             wantToRestart();
         //this will run if the user requests to purchase more of an item then bamazon has in stock
         } else {
-            console.log("We dont have enough of this item.");
-            console.log("-----------------------------------");
+            console.log("Sorry, we dont have enough of this item in stock.".grey);
+            console.log("-----------------------------------".magenta);
             //calling this function from below which will give user option to continue shopping or complete their order
             wantToRestart();
         }
@@ -91,7 +98,7 @@ function wantToRestart() {
         .prompt({
             name: "yesOrNo",
             type: "rawlist",
-            message: "Would you like to buy something else?",
+            message: colors.green("Would you like to buy something else?"),
             choices: ["Yes", "No"]
         })
         .then(function (answer) {
@@ -102,7 +109,7 @@ function wantToRestart() {
                 displayItems();
             } else {
                 //end the purchase
-                console.log("Have a nice day");
+                console.log("Have a nice day!".grey);
             }
         });
 }
