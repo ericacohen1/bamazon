@@ -72,18 +72,18 @@ function makePurchaseIfEnoughInStock(ID, Quantity) {
             //telling the user their bill
             console.log("Order total cost: $" + totalCost);
             console.log("-----------------------------------");
+            // connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + 'WHERE item_id = ' + ID);
+            // connection.query(
+            //     "UPDATE products SET ? WHERE ?", [{
+            //             stock_quantity: stock_quantity - Quantity
+            //         },
+            //         {
+            //             item_id: ID
+            //         }
+            //     ]
+            // )
             //calling this function from below which will give user option to continue shopping or complete their order
             wantToRestart();
-            // connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + 'WHERE item_id = ' + ID);
-            connection.query(
-                "UPDATE products SET ? WHERE ?", [{
-                        stock_quantity: stock_quantity - Quantity
-                    },
-                    {
-                        item_id: ID
-                    }
-                ]
-            )
         //this will run if the user requests to purchase more of an item then bamazon has in stock
         } else {
             console.log("We dont have enough of this item.");
@@ -111,13 +111,13 @@ function wantToRestart() {
                 displayItems();
             } else {
                 //end the purchase
-                console.log("Have a nice day")
+                console.log("Have a nice day");
             }
         });
 }
 
 
 
-//when I run the wantToRestart function and get to the .then I am unable to enter a 1 or 2 depending on if the user wants to continue shopping ir end the order
+
 
 //database is not updating properly
