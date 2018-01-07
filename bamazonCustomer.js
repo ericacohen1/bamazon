@@ -106,9 +106,3 @@ function wantToRestart() {
             }
         });
 }
-
-
-
-
-
-//database is not updating properly
