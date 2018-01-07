@@ -72,16 +72,7 @@ function makePurchaseIfEnoughInStock(ID, Quantity) {
             //telling the user their bill
             console.log("Order total cost: $" + totalCost);
             console.log("-----------------------------------");
-            // connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + 'WHERE item_id = ' + ID);
-            // connection.query(
-            //     "UPDATE products SET ? WHERE ?", [{
-            //             stock_quantity: stock_quantity - Quantity
-            //         },
-            //         {
-            //             item_id: ID
-            //         }
-            //     ]
-            // )
+            connection.query('UPDATE products SET stock_quantity = stock_quantity - ' + Quantity + ' WHERE item_id = ' + ID);
             //calling this function from below which will give user option to continue shopping or complete their order
             wantToRestart();
         //this will run if the user requests to purchase more of an item then bamazon has in stock
