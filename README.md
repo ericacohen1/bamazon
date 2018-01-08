@@ -14,3 +14,5 @@
 -If there isnot enough in stock the user will be notified that there was insufficient quantity
     -User is then asked if they want to continue shopping
     -If they choose to continue shopping they are shown all of the items in stock again, however if they say they no longer want to shop they are notified to have a nice day
+
+![screenshot](images/screenshot.png)
